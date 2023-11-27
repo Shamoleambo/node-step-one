@@ -1,12 +1,11 @@
 const http = require('http')
+const fs = require('fs')
 
 const server = http.createServer((req, res) => {
-  const { url, method, body } = req
+  const { url, method } = req
   if (url === '/') {
     res.write(`<html lang="en">
     <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Form</title>
     </head>
     <body>
@@ -17,16 +16,9 @@ const server = http.createServer((req, res) => {
     </body>`)
     res.end()
   } else if (url === '/message' && method === 'POST') {
-    res.write(`<!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <title>Message</title>
-    </head>
-    <body>
-      <h1>Messages</h1>
-    </body>
-    </html>
-    `)
+    fs.writeFileSync('message.txt', 'DUMMY DATA')
+    res.statusCode = 302
+    res.setHeader('Location', '/')
     res.end()
   }
 })
